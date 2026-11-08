@@ -6,18 +6,18 @@ import { url } from '../../lib/url';
 type Role = 'PI' | 'postdoc' | 'phd' | 'masters' | 'undergrad' | 'staff' | 'alumni';
 
 // Page sections, in display order. `roles` lets one heading cover several
-// roles (Graduate Students = PhD + Masters). A section shows once it has
-// members; until then, sections with `recruiting` are named in a single
-// "we're recruiting" line at the end, linking to the Join Us page.
+// roles (Graduate Students = PhD + Masters). `showWhenEmpty` keeps a section
+// on the page while the lab is still hiring for it.
 const sections: {
   label: string;
   roles: Role[];
-  recruiting?: string;
+  showWhenEmpty?: boolean;
+  emptyText?: string;
 }[] = [
   { label: 'Principal Investigator', roles: ['PI'] },
-  { label: 'Postdoctoral Researchers', roles: ['postdoc'], recruiting: 'postdoctoral researchers' },
-  { label: 'Graduate Students', roles: ['phd', 'masters'], recruiting: 'graduate students' },
-  { label: 'Undergraduate Students', roles: ['undergrad'], recruiting: 'undergraduate researchers' },
+  { label: 'Postdoctoral Researchers', roles: ['postdoc'], showWhenEmpty: true },
+  { label: 'Graduate Students', roles: ['phd', 'masters'], showWhenEmpty: true },
+  { label: 'Undergraduate Students', roles: ['undergrad'], showWhenEmpty: true },
   { label: 'Staff', roles: ['staff'] },
   { label: 'Alumni', roles: ['alumni'] },
 ];
@@ -42,28 +42,27 @@ const withBio = await Promise.all(
   all.map(async (p) => ({ ...p, Content: (await render(p)).Content })),
 );
 
-const allGroups = sections.map((s) => ({
-  ...s,
-  members: withBio
-    .filter((p) => s.roles.includes(p.data.role))
-    .sort(
-      (a, b) =>
-        (a.data.order ?? 99) - (b.data.order ?? 99) ||
-        a.data.name.localeCompare(b.data.name),
-    ),
-}));
-const groups = allGroups.filter((g) => g.members.length > 0);
-const openings = allGroups.filter((g) => g.members.length === 0 && g.recruiting).map((g) => g.recruiting!);
-// "a", "a and b", "a, b and c"
-const listOf = (xs: string[]) => (xs.length < 2 ? xs.join('') : `${xs.slice(0, -1).join(', ')} and ${xs[xs.length - 1]}`);
+const groups = sections
+  .map((s) => ({
+    ...s,
+    members: withBio
+      .filter((p) => s.roles.includes(p.data.role))
+      .sort(
+        (a, b) =>
+          (a.data.order ?? 99) - (b.data.order ?? 99) ||
+          a.data.name.localeCompare(b.data.name),
+      ),
+  }))
+  .filter((g) => g.members.length > 0 || g.showWhenEmpty);
 ---
 <BaseLayout title="People">
   <h1>People</h1>
-  {groups.map(({ label, members }) => (
+  {groups.map(({ label, members, emptyText }) => (
     <section>
       {/* The PI's own entry already states their title, so the group heading
           would just repeat it. Every other group still gets one. */}
       {label !== 'Principal Investigator' && <h2>{label}</h2>}
+      {members.length === 0 && emptyText && <p>{emptyText}</p>}
       <ul class="people-list">
         {members.map(({ data, Content }) => (
           <li class:list={['person', { 'person-pi': data.role === 'PI' }]}>
@@ -178,10 +177,4 @@ const listOf = (xs: string[]) => (xs.length < 2 ? xs.join('') : `${xs.slice(0, -
       </ul>
     </section>
   ))}
-  {openings.length > 0 && (
-    <section>
-      <h2>Join the lab</h2>
-      <p>We're recruiting {listOf(openings)}. <a href={url('/join')}>See how to apply →</a></p>
-    </section>
-  )}
 </BaseLayout>
