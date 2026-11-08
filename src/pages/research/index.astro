@@ -1,0 +1,227 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { buildHeroArt } from '../../lib/hero-art';
+import { getThrusts } from '../../lib/research';
+import { url } from '../../lib/url';
+
+const thrusts = await getThrusts();
+
+const heroArt = buildHeroArt('research-hero');
+
+const statement =
+  'ACCEL harnesses AI and automation to uncover the science behind electrochemical materials and processes for ' +
+  'transforming small molecules into value-added chemicals and fuels using electricity, and for converting ' +
+  'fuels back into electricity on demand. We combine autonomous, closed-loop experimentation with operando ' +
+  'spectroscopy to uncover data-driven structure-function relationships in electrochemical materials and ' +
+  'processes. We also draw on design principles from enzymes and ion channels, translating them into ' +
+  'synthetic materials. These insights are then used to guide the rational design of next-generation ' +
+  'electrochemical materials and processes.';
+
+// Join the last two words with a non-breaking space so the paragraph never
+// ends with one word alone on its last line, in any browser.
+const keepLastWords = (s: string) => s.replace(/ (\S+)$/, ' $1');
+---
+<BaseLayout
+  title="Research"
+  bleed
+  description="ACCEL research: autonomous platforms for materials discovery, operando spectroscopy of catalytic interfaces, and bio-inspired design of electrocatalysts and membranes."
+>
+  <section class="r-hero" data-scroll="exit">
+    <Fragment set:html={heroArt} />
+    <div class="container r-hero-inner">
+      <p class="r-eyebrow">Research</p>
+      <h1>
+        <span>Discovering</span> <span>electrochemical materials</span>
+        <span>and the science of</span> <span>how they work</span>
+      </h1>
+      <nav class="r-hero-thrusts" aria-label="Research thrusts">
+        {thrusts.map((t) => (
+          <a href={`#${t.id}`}><span>{t.num}</span>{t.short}</a>
+        ))}
+      </nav>
+    </div>
+    <a class="r-scroll-cue" href="#overview" aria-label="Scroll to the research overview">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6" /></svg>
+    </a>
+  </section>
+
+  <section class="r-statement" id="overview">
+    <p class="container r-statement-text">{keepLastWords(statement)}</p>
+  </section>
+
+  {thrusts.map((t, i) => (
+    <section class:list={['r-chapter', { 'r-chapter-alt': i % 2 }]} id={t.id} data-chapter={t.short}>
+      <header class="container r-chapter-intro r-reveal">
+        <p class="r-chapter-num">{t.num} <span>Research thrust</span></p>
+        <h2>{t.data.title}</h2>
+        <p class="r-chapter-summary">{t.data.summary}</p>
+        {t.data.repo && <p class="meta"><a href={t.data.repo}>repository</a></p>}
+      </header>
+
+      {/* Pinned under the site header once the title above scrolls away, so
+          it stays clear which thrust the text below belongs to */}
+      <div class="r-chapter-bar" aria-hidden="true">
+        <div class="container">
+          <span>{t.num}</span><b class="r-bar-full">{t.data.title}</b><b class="r-bar-short">{t.short}</b>
+        </div>
+      </div>
+
+      <div class:list={['container', 'r-story', { 'r-story-flip': i % 2 }]} data-scroll="read">
+        <div class="r-story-visual">
+          <div class="r-art-sticky">
+            <figure class="r-art" set:html={t.art} />
+          </div>
+        </div>
+        <div class="r-story-steps">
+          {t.steps.map((s) => (
+            <article class="r-step" data-stage={s.stage}>
+              {s.kicker && <p class="r-step-kicker">{s.kicker}</p>}
+              <div class="r-step-body" set:html={s.html} />
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  ))}
+
+  <section class="r-cta">
+    <div class="container r-reveal">
+      <h2>Interested in building with us?</h2>
+      <p>See our Join Us page for openings and opportunities.</p>
+      <div class="hero-actions">
+        <a href={url('/join')} class="btn btn-primary">Join Us</a>
+        <a href={url('/publications')} class="btn btn-outline">Read our publications</a>
+      </div>
+    </div>
+  </section>
+
+  <nav class="r-rail" aria-label="Jump to a research thrust">
+    <ol>
+      {thrusts.map((t) => (
+        <li><a href={`#${t.id}`} data-rail={t.id}><span>{t.short}</span></a></li>
+      ))}
+    </ol>
+  </nav>
+</BaseLayout>
+
+<script>
+  // Scroll-driven story. Each [data-scroll] section gets --p (0 → 1) for how far
+  // the reader is through it; the CSS and the artwork do the rest. Readers who
+  // prefer reduced motion get the static page (everything shown, nothing moves).
+  const root = document.documentElement;
+  const header = document.querySelector<HTMLElement>('.site-header');
+  const clamp = (v: number) => Math.min(1, Math.max(0, v));
+  let headerH = 0;
+
+  const measure = () => {
+    headerH = header?.getBoundingClientRect().height ?? 0;
+    root.style.setProperty('--header-h', `${headerH}px`);
+  };
+  measure();
+
+  // Each thrust's title bar shows once the big title has scrolled under the
+  // header, and hides again as the thrust ends
+  const bars = [...document.querySelectorAll<HTMLElement>('.r-chapter')].map((ch) => ({
+    ch,
+    intro: ch.querySelector<HTMLElement>('.r-chapter-intro')!,
+    bar: ch.querySelector<HTMLElement>('.r-chapter-bar')!,
+  }));
+  const updateBars = () => {
+    for (const { ch, intro, bar } of bars) {
+      const top = headerH + bar.offsetHeight;
+      const on = intro.getBoundingClientRect().bottom < top && ch.getBoundingClientRect().bottom > top + 40;
+      bar.classList.toggle('is-on', on);
+    }
+  };
+  addEventListener('scroll', updateBars, { passive: true });
+  addEventListener('resize', updateBars);
+  updateBars();
+
+  if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    root.classList.add('r-motion');
+
+    const sections = [...document.querySelectorAll<HTMLElement>('[data-scroll]')];
+    const chapters = [...document.querySelectorAll<HTMLElement>('[data-chapter]')];
+    const rail = document.querySelector<HTMLElement>('.r-rail');
+    let queued = false;
+
+    // The artwork follows the scroll position with a short ease (about a
+    // tenth of a second), so a mouse-wheel step glides instead of jumping
+    const target = new Map<HTMLElement, number>();
+    const shown = new Map<HTMLElement, number>();
+    let gliding = false, last = 0;
+    const glide = (now: number) => {
+      const k = 1 - Math.exp(-(last ? Math.min(64, now - last) : 16) / 90);
+      last = now;
+      let moving = false;
+      for (const [el, to] of target) {
+        const from = shown.get(el);
+        const next = from === undefined || Math.abs(to - from) < 0.0005 ? to : from + (to - from) * k;
+        if (next !== from) el.style.setProperty('--p', next.toFixed(4));
+        shown.set(el, next);
+        if (next !== to) moving = true;
+      }
+      if (moving) requestAnimationFrame(glide);
+      else { gliding = false; last = 0; }
+    };
+    const setProgress = (el: HTMLElement, p: number) => {
+      target.set(el, p);
+      if (!gliding) { gliding = true; requestAnimationFrame(glide); }
+    };
+
+    const update = () => {
+      queued = false;
+      const vh = innerHeight;
+      // The line we read at: the middle of the window below the header (lower on
+      // phones, where the artwork is pinned above the text).
+      const line = headerH + (vh - headerH) * (innerWidth < 900 ? 0.68 : 0.5);
+
+      for (const el of sections) {
+        const r = el.getBoundingClientRect();
+        const mode = el.dataset.scroll;
+        if (mode !== 'read') {
+          el.style.setProperty('--p', clamp((headerH - r.top) / r.height).toFixed(4));
+          continue;
+        }
+
+        // The artwork finishes just before the last step's text is centered
+        // on the reading line, so it is complete while that text is read.
+        const steps = [...el.querySelectorAll<HTMLElement>('.r-step')];
+        const lr = steps[steps.length - 1]?.getBoundingClientRect() ?? r;
+        const end = lr.top + lr.height / 2 - r.top - (vh - headerH) * 0.06;
+        setProgress(el, clamp((line - r.top) / Math.max(1, end)));
+
+        let active = steps[0];
+        for (const s of steps) if (s.getBoundingClientRect().top <= line) active = s;
+        steps.forEach((s) => s.classList.toggle('is-active', s === active));
+      }
+
+      if (rail) {
+        let current: HTMLElement | undefined;
+        for (const c of chapters) if (c.getBoundingClientRect().top <= line) current = c;
+        const last = chapters[chapters.length - 1];
+        if (current === last && last.getBoundingClientRect().bottom < line) current = undefined;
+        rail.classList.toggle('is-visible', !!current);
+        rail.querySelectorAll<HTMLElement>('[data-rail]').forEach((a) => {
+          if (a.dataset.rail === current?.id) a.setAttribute('aria-current', 'true');
+          else a.removeAttribute('aria-current');
+        });
+      }
+    };
+
+    const queue = () => {
+      if (!queued) { queued = true; requestAnimationFrame(update); }
+    };
+    addEventListener('scroll', queue, { passive: true });
+    addEventListener('resize', () => { measure(); queue(); });
+    update();
+
+    const io = new IntersectionObserver(
+      (entries) => entries.forEach((e) => {
+        if (e.isIntersecting) { e.target.classList.add('is-in'); io.unobserve(e.target); }
+      }),
+      { rootMargin: '0px 0px -12% 0px' },
+    );
+    document.querySelectorAll('.r-reveal').forEach((el) => io.observe(el));
+  }
+</script>

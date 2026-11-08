@@ -1,0 +1,66 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const people = await getCollection('people');
+const pi = people.find((p) => p.data.role === 'PI');
+---
+<BaseLayout
+  title="Join Us"
+  description="Open positions for PhD students, postdoctoral researchers, and undergraduate researchers in ACCEL, the Autonomous Closed-Loop Catalysis and Electrochemistry Lab."
+>
+  <div class="text-justified">
+  <h1>Join Us</h1>
+  <p class="lede lede-wide">
+    We're looking for people who want to combine automation, machine learning, and electrochemistry to understand
+    and design the materials that will drive cleaner energy systems.
+  </p>
+
+  <section>
+    <h2>Postdoctoral Researchers</h2>
+    <p>
+      We welcome inquiries from postdoctoral candidates whose background overlaps with
+      autonomous/high-throughput experimentation, electrocatalysis, operando
+      spectroscopy, or machine learning for materials discovery. Please email me with a
+      CV, a short note on your previous research experience, and your research interests and how they connect to the
+      lab's directions. We're happy to discuss fit and funding, including
+      fellowship applications.
+    </p>
+  </section>
+
+  <section>
+    <h2>Graduate Students</h2>
+    <p>
+      Prospective graduate students should apply directly to the
+      <a href="https://cbe.udel.edu/graduate-programs/">Department of Chemical and Biomolecular Engineering</a>
+      at the University of Delaware. No prior experience with autonomous
+      experimentation or machine learning is required. A background in chemical
+      engineering, chemistry, materials science, or a related field is preferred, but a genuine
+      interest in electrochemistry, catalysis, and data-driven research matters more. You're welcome to
+      reach out before applying to discuss fit and interest.
+    </p>
+  </section>
+
+  <section>
+    <h2>Undergraduate Students</h2>
+    <p>
+      UD undergraduates interested in research experience are welcome to reach out.
+      Please include a resume or CV, what particular area caught your interest, and any relevant coursework or experience.
+    </p>
+  </section>
+
+  <section>
+    <h2>How to apply</h2>
+    <p>
+      {pi?.data.email ? (
+        <>
+          Email <a href={`mailto:${pi.data.email}`}>{pi.data.email}</a> with a CV and a
+          statement on your background and research interests. 
+        </>
+      ) : (
+        <>Contact the lab to inquire about openings.</>
+      )}
+    </p>
+  </section>
+  </div>
+</BaseLayout>

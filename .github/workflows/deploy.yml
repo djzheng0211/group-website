@@ -1,0 +1,52 @@
+# Builds the site and publishes it to GitHub Pages on every push to main.
+#
+# One-time setup on GitHub: Settings → Pages → Build and deployment →
+# Source: "GitHub Actions". The site then appears at
+# https://OWNER.github.io/REPO/ (or https://OWNER.github.io/ for a repo named
+# OWNER.github.io); astro.config.mjs works the address out by itself.
+#
+# Custom domain later: Settings → Secrets and variables → Actions → Variables,
+# add SITE_URL (e.g. https://accel.udel.edu) and BASE_PATH (/).
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Install, build, and upload site
+        uses: withastro/action@v3
+        env:
+          # Empty unless set as repository variables (custom domain only)
+          SITE_URL: ${{ vars.SITE_URL }}
+          BASE_PATH: ${{ vars.BASE_PATH }}
+        # with:
+        #   path: .            # repo subdir containing package.json
+        #   node-version: 20
+        #   package-manager: npm
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy
+        id: deployment
+        uses: actions/deploy-pages@v4

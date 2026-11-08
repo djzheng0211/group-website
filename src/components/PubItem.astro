@@ -1,0 +1,44 @@
+---
+// One entry in a .pub-list: figure thumbnail (if any), title, authors, venue.
+import type { CollectionEntry } from 'astro:content';
+import { isGroupAuthor, pubUrl, sharesFirstAuthorship } from '../lib/publications';
+import { url as withBase } from '../lib/url';
+
+interface Props {
+  data: CollectionEntry<'publications'>['data'];
+}
+
+const { data } = Astro.props;
+const url = pubUrl(data);
+---
+<li class:list={{ 'pub-with-image': data.toc }}>
+  {data.toc && (
+    <a class="pub-figure" href={url ?? data.toc.source} target="_blank" rel="noopener noreferrer" aria-label={`Read ${data.title}`}>
+      <img src={withBase(data.toc.image)} alt={data.toc.alt} width={data.toc.width} height={data.toc.height} loading="lazy" decoding="async" />
+      {data.toc.kind === 'article-figure' && <span class="pub-figure-caption">Article figure</span>}
+    </a>
+  )}
+  <div class="pub-details">
+  {url ? (
+    <a class="pub-title" href={url} target="_blank" rel="noopener noreferrer">{data.title}</a>
+  ) : (
+    <span class="pub-title">{data.title}</span>
+  )}
+  <span class="authors">
+    {data.authors.map((a, i) => (
+      <>
+        {i > 0 && ', '}
+        {isGroupAuthor(a) ? <strong>{a}</strong> : a}
+        {sharesFirstAuthorship(a, data.equalContribution) && <sup>*</sup>}
+      </>
+    ))}
+  </span>
+  <span class="venue">
+    <em>{data.venue}</em>
+    {data.type === 'preprint' && <span class="pub-tag">preprint</span>}
+  </span>
+  {data.equalContribution && data.equalContribution.length > 0 && (
+    <span class="pub-note">*These authors contributed equally.</span>
+  )}
+  </div>
+</li>

@@ -1,0 +1,342 @@
+[
+  {
+    "image": "acs.chemmater.3c00316.webp",
+    "doi": "acs.chemmater.3c00316",
+    "source": "https://doi.org/10.1021/acs.chemmater.3c00316",
+    "original": "papers/2023-chem-mater-linker-dependent-stability-of-metal-hydroxide-organic-frameworks-for-oxygen-evolution.pdf",
+    "kind": "graphical-abstract",
+    "page": 1,
+    "crop": {
+      "units": "PDF points",
+      "origin": "top-left",
+      "left": 317.877,
+      "top": 252.11299999999994,
+      "width": 237.6,
+      "height": 133.909
+    },
+    "sha256": "422b5700cf093db3bc422266bf33b14f045532a7fff37d2c209315060ea85fb1",
+    "width": 991,
+    "height": 558
+  },
+  {
+    "image": "acs.chemmater.4c01008.webp",
+    "doi": "acs.chemmater.4c01008",
+    "source": "https://doi.org/10.1021/acs.chemmater.4c01008",
+    "original": "papers/2024-chem-mater-cobalt-platinum-ruthenium-system-for-acidic-methanol-oxidation.pdf",
+    "kind": "graphical-abstract",
+    "page": 1,
+    "crop": {
+      "units": "PDF points",
+      "origin": "top-left",
+      "left": 334.205,
+      "top": 252.11299999999994,
+      "width": 221.272,
+      "height": 133.909
+    },
+    "sha256": "187217b3e8f48f9336d289074cc61dd3b9b2e91bf35db6411b78e08dcfb4c889",
+    "width": 922,
+    "height": 558
+  },
+  {
+    "image": "acs.chemrev.4c00274.webp",
+    "doi": "acs.chemrev.4c00274",
+    "source": "https://doi.org/10.1021/acs.chemrev.4c00274",
+    "original": "papers/2025-chem-rev-confined-water-for-catalysis-thermodynamic-properties-and-reaction-kinetics.pdf",
+    "kind": "graphical-abstract",
+    "page": 1,
+    "crop": {
+      "units": "PDF points",
+      "origin": "top-left",
+      "left": 411.477,
+      "top": 286.12919999999997,
+      "width": 144,
+      "height": 77.9528
+    },
+    "sha256": "713222980a603b0224f6e9c9c068118b3e6e41a92e3109dfe5af0f60d27da741",
+    "width": 601,
+    "height": 325
+  },
+  {
+    "image": "acsami.5c12947.webp",
+    "doi": "acsami.5c12947",
+    "source": "https://doi.org/10.1021/acsami.5c12947",
+    "original": "papers/2026-acs-appl-mater-interfaces-lattice-oxygen-exchange-in-nickel-iron-metal-organic-frameworks.pdf",
+    "kind": "graphical-abstract",
+    "page": 1,
+    "crop": {
+      "units": "PDF points",
+      "origin": "top-left",
+      "left": 315.439,
+      "top": 266.11699999999996,
+      "width": 239.981,
+      "height": 133.398
+    },
+    "sha256": "811a4a8a02892b0578ffe79d3f12bd9ce75a02b9cc1149678856287797e24fa6",
+    "width": 1000,
+    "height": 556
+  },
+  {
+    "image": "acscatal.2c00184.webp",
+    "doi": "acscatal.2c00184",
+    "source": "https://doi.org/10.1021/acscatal.2c00184",
+    "original": "papers/2022-acs-catal-tuning-fe-phthalocyanine-oxygen-reduction-catalysts-by-ligand-functionalization.pdf",
+    "kind": "graphical-abstract",
+    "page": 1,
+    "crop": {
+      "units": "PDF points",
+      "origin": "top-left",
+      "left": 152.957,
+      "top": 252.34099999999992,
+      "width": 300.926,
+      "height": 121.436
+    },
+    "sha256": "82a1bada11a35e769daf66de47f42c5e8401aee136247ff0e58cdcf7775e60c9",
+    "width": 1254,
+    "height": 506
+  },
+  {
+    "image": "acscatal.3c00625.webp",
+    "doi": "acscatal.3c00625",
+    "source": "https://doi.org/10.1021/acscatal.3c00625",
+    "original": "papers/2023-acs-catal-structure-activity-relationships-in-ni-carboxylate-metal-organic-frameworks.pdf",
+    "kind": "graphical-abstract",
+    "page": 1,
+    "crop": {
+      "units": "PDF points",
+      "origin": "top-left",
+      "left": 367.313,
+      "top": 284.145,
+      "width": 188.107,
+      "height": 133.909
+    },
+    "sha256": "ed667407e39aeee15a6c6fc26b000eaf9a7a50d841bef1ad6b20920025e36dd5",
+    "width": 784,
+    "height": 558
+  },
+  {
+    "image": "acscatal.4c03618.webp",
+    "doi": "acscatal.4c03618",
+    "source": "https://doi.org/10.1021/acscatal.4c03618",
+    "original": "papers/2024-acs-catal-tuning-metal-organic-framework-reconstruction-during-oxygen-evolution.pdf",
+    "kind": "graphical-abstract",
+    "page": 1,
+    "crop": {
+      "units": "PDF points",
+      "origin": "top-left",
+      "left": 362.494,
+      "top": 266.11699999999996,
+      "width": 192.926,
+      "height": 106.526
+    },
+    "sha256": "921fd0738b829d177b8dc3c93ab7ce80c4d011dc2b964488b807aa7d4275a9a0",
+    "width": 804,
+    "height": 444
+  },
+  {
+    "image": "acscatal.5c00702.webp",
+    "doi": "acscatal.5c00702",
+    "source": "https://doi.org/10.1021/acscatal.5c00702",
+    "original": "papers/2025-acs-catal-in-situ-fluorescence-imaging-of-oxygen-evolution-on-epitaxial-perovskite-films.pdf",
+    "kind": "graphical-abstract",
+    "page": 1,
+    "crop": {
+      "units": "PDF points",
+      "origin": "top-left",
+      "left": 329.839,
+      "top": 252.11319999999995,
+      "width": 225.581,
+      "height": 71.4898
+    },
+    "sha256": "5301dfacb71e9848695ed8cefa065bc1108fec7155473ff72304ea279e89008f",
+    "width": 940,
+    "height": 298
+  },
+  {
+    "image": "acsnanoscienceau.6c00061.webp",
+    "doi": "acsnanoscienceau.6c00061",
+    "source": "https://doi.org/10.1021/acsnanoscienceau.6c00061",
+    "original": "papers/2026-acs-nanoscience-au-ruthenium-nanoparticles-on-porous-carbon-nanospheres-for-oxygen-evolution.pdf",
+    "kind": "graphical-abstract",
+    "page": 1,
+    "crop": {
+      "units": "PDF points",
+      "origin": "top-left",
+      "left": 317.367,
+      "top": 272.126,
+      "width": 238.054,
+      "height": 128.636
+    },
+    "sha256": "ab39a7e6c15f2d01f6ff61884b9a3301511e66797fc99877e5cc2cb189e41aa9",
+    "width": 992,
+    "height": 536
+  },
+  {
+    "image": "aenm.202002154.webp",
+    "doi": "aenm.202002154",
+    "source": "https://www.romangroup.mit.edu/copy-of-publications-1",
+    "original": "https://static.wixstatic.com/media/02b70b_f5177df3cc694b67ad8aaeca8bbbcd8f~mv2.png",
+    "kind": "graphical-abstract",
+    "reviewedPdf": "papers/2020-adv-energy-mater-conversion-of-methane-into-liquid-fuels.pdf",
+    "note": "The supplied PDF omits the dedicated graphical abstract; retain the existing publisher or author-sourced graphical abstract."
+  },
+  {
+    "image": "d4ey00100a.webp",
+    "doi": "D4EY00100A",
+    "source": "https://www.romangroup.mit.edu/publications",
+    "original": "https://static.wixstatic.com/media/02b70b_5b8d13fe93884192ad10e3761bf944b6~mv2.png",
+    "kind": "graphical-abstract",
+    "reviewedPdf": "papers/2024-ees-catal-uniting-activity-design-principles-of-anode-catalysts-for-direct-liquid-fuel-cells.pdf",
+    "note": "The supplied PDF omits the dedicated graphical abstract; retain the existing publisher or author-sourced graphical abstract."
+  },
+  {
+    "image": "jacs.5c02411.webp",
+    "doi": "jacs.5c02411",
+    "source": "https://doi.org/10.1021/jacs.5c02411",
+    "original": "papers/2025-jacs-reactivating-molecular-cobalt-catalysts-for-electrochemical-co2-conversion-to-methanol.pdf",
+    "kind": "graphical-abstract",
+    "page": 1,
+    "crop": {
+      "units": "PDF points",
+      "origin": "top-left",
+      "left": 361,
+      "top": 251,
+      "width": 195,
+      "height": 101
+    },
+    "sha256": "9d6b34db0e39d66045a8048ee2fc6c5d20d3ed5a4ab318e7984a2734ec59c3b1",
+    "width": 813,
+    "height": 421
+  },
+  {
+    "image": "jacs.5c06156.webp",
+    "doi": "jacs.5c06156",
+    "source": "https://doi.org/10.1021/jacs.5c06156",
+    "original": "papers/2025-jacs-stable-metal-organic-electrocatalysts-for-water-electrolyzers-by-defect-engineering.pdf",
+    "kind": "graphical-abstract",
+    "page": 1,
+    "crop": {
+      "units": "PDF points",
+      "origin": "top-left",
+      "left": 316.176,
+      "top": 280.11999999999995,
+      "width": 239.244,
+      "height": 110.835
+    },
+    "sha256": "9414df228bd20eb60b66f4a66ca219d0c41bf1c04472cae21230a13918537aed",
+    "width": 997,
+    "height": 462
+  },
+  {
+    "image": "jacs.6c02353.webp",
+    "doi": "jacs.6c02353",
+    "source": "https://doi.org/10.1021/jacs.6c02353",
+    "original": "papers/2026-jacs-increasingly-reversible-na-cl2-and-li-cl2-batteries.pdf",
+    "kind": "graphical-abstract",
+    "page": 1,
+    "crop": {
+      "units": "PDF points",
+      "origin": "top-left",
+      "left": 337.039,
+      "top": 248.14499999999992,
+      "width": 218.381,
+      "height": 111.572
+    },
+    "sha256": "f92c2e516c4d4a5f05c8bc0f107fba864f8dedf87e835413e29ef279483e38e3",
+    "width": 910,
+    "height": 465
+  },
+  {
+    "image": "s41560-025-01804-x.webp",
+    "doi": "s41560-025-01804-x",
+    "source": "https://doi.org/10.1038/s41560-025-01804-x",
+    "original": "papers/2025-nat-energy-actor-critic-algorithm-to-maximize-power-from-direct-methanol-fuel-cells.pdf",
+    "kind": "article-figure",
+    "page": 3,
+    "crop": {
+      "units": "PDF points",
+      "origin": "top-left",
+      "left": 40,
+      "top": 50,
+      "width": 522,
+      "height": 416
+    },
+    "sha256": "1250516f677c0ce2d939dc06e972284974edae7195c02bb984e34422a0afe97f",
+    "width": 1400,
+    "height": 1116
+  },
+  {
+    "image": "s41578-022-00466-5.webp",
+    "doi": "s41578-022-00466-5",
+    "source": "https://doi.org/10.1038/s41578-022-00466-5",
+    "original": "papers/2022-nat-rev-mater-human-and-machine-centred-designs-for-sustainability-and-decarbonization.pdf",
+    "kind": "article-figure",
+    "page": 3,
+    "crop": {
+      "units": "PDF points",
+      "origin": "top-left",
+      "left": 139,
+      "top": 60,
+      "width": 411,
+      "height": 257
+    },
+    "sha256": "6924a060c9ad3fe0542aa35fd4697e39a547f8ccc4dd06897bc7da04ce500dd4",
+    "width": 1400,
+    "height": 876
+  },
+  {
+    "image": "s41586-025-09640-5.webp",
+    "doi": "s41586-025-09640-5",
+    "source": "https://doi.org/10.1038/s41586-025-09640-5",
+    "original": "papers/2025-nature-multimodal-robotic-platform-for-multi-element-electrocatalyst-discovery.pdf",
+    "kind": "article-figure",
+    "page": 2,
+    "crop": {
+      "units": "PDF points",
+      "origin": "top-left",
+      "left": 113,
+      "top": 47,
+      "width": 372,
+      "height": 459
+    },
+    "sha256": "bb175e19668172b26daca148aa6feae504c534983ed30e7c5653f8b2a8e5e9e5",
+    "width": 1216,
+    "height": 1500
+  },
+  {
+    "image": "s41893-024-01285-y.webp",
+    "doi": "s41893-024-01285-y",
+    "source": "https://doi.org/10.1038/s41893-024-01285-y",
+    "original": "papers/2024-nat-sustain-best-practices-for-oxygen-electrocatalysis.pdf",
+    "kind": "article-figure",
+    "page": 2,
+    "crop": {
+      "units": "PDF points",
+      "origin": "top-left",
+      "left": 40,
+      "top": 119,
+      "width": 520,
+      "height": 565
+    },
+    "sha256": "b776f524bf47af2b687c625810f8eb2a75805b039e17d175055579d274e70028",
+    "width": 1381,
+    "height": 1500
+  },
+  {
+    "image": "s41929-024-01197-2.webp",
+    "doi": "s41929-024-01197-2",
+    "source": "https://www.nature.com/articles/s41929-024-01197-2",
+    "original": "https://media.springernature.com/full/springer-static/image/art%3A10.1038%2Fs41929-024-01197-2/MediaObjects/41929_2024_1197_Figa_HTML.png",
+    "kind": "graphical-abstract",
+    "reviewedPdf": "papers/2024-nat-catal-co2-to-methanol-electroconversion-on-a-molecular-cobalt-catalyst.pdf",
+    "note": "The supplied PDF omits the dedicated graphical abstract; retain the existing publisher or author-sourced graphical abstract."
+  },
+  {
+    "image": "s41929-026-01595-8.webp",
+    "doi": "s41929-026-01595-8",
+    "source": "https://www.nature.com/articles/s41929-026-01595-8",
+    "original": "https://media.springernature.com/full/springer-static/image/art%3A10.1038%2Fs41929-026-01595-8/MediaObjects/41929_2026_1595_Figa_HTML.png",
+    "kind": "graphical-abstract",
+    "reviewedPdf": "papers/2026-nat-catal-oxygen-migration-pathways-in-the-methanol-oxidation-reaction.pdf",
+    "note": "The supplied PDF omits the dedicated graphical abstract; retain the existing publisher or author-sourced graphical abstract."
+  }
+]

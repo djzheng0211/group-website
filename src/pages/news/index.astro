@@ -1,0 +1,26 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { url } from '../../lib/url';
+
+const items = (await getCollection('news')).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
+);
+
+const fmtDate = (d: Date) =>
+  d.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+---
+<BaseLayout title="News">
+  <h1>News</h1>
+  {items.length === 0 && <p class="meta">No news yet — check back soon.</p>}
+  <ul class="news-list">
+    {items.map((item) => (
+      <li>
+        <time datetime={item.data.date.toISOString()}>{fmtDate(item.data.date)}</time>
+        {' · '}
+        <a href={url(`/news/${item.id}`)}>{item.data.title}</a>
+        {item.data.summary && <p class="meta">{item.data.summary}</p>}
+      </li>
+    ))}
+  </ul>
+</BaseLayout>

@@ -1,0 +1,27 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PubItem from '../../components/PubItem.astro';
+import { getPublications } from '../../lib/publications';
+
+const pubs = await getPublications();
+
+const byYear = new Map<number, typeof pubs>();
+for (const p of pubs) {
+  byYear.set(p.data.year, [...(byYear.get(p.data.year) ?? []), p]);
+}
+const years = [...byYear.keys()].sort((a, b) => b - a);
+---
+<BaseLayout title="Publications">
+  <h1>Publications</h1>
+  {pubs.length === 0 && (
+    <p class="lede">Publications will be listed here soon.</p>
+  )}
+  {years.map((y) => (
+    <section>
+      <h2>{y}</h2>
+      <ol class="pub-list">
+        {byYear.get(y)!.map(({ data }) => <PubItem data={data} />)}
+      </ol>
+    </section>
+  ))}
+</BaseLayout>

@@ -1,0 +1,70 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PubItem from '../components/PubItem.astro';
+import { buildHeroArt } from '../lib/hero-art';
+import { getPublications } from '../lib/publications';
+import { getThrusts } from '../lib/research';
+import { url } from '../lib/url';
+
+const heroArt = buildHeroArt();
+const thrusts = await getThrusts();
+
+// Card artwork shows each picture finished (--p: 1), except the enzyme and the
+// spectra, which are more recognizable before they rearrange.
+const cardProgress: Record<string, number> = { 'bioinspired-design': 0, 'operando-spectroscopy': 0 };
+
+// Featured papers if any are marked, otherwise the most recent
+const pubs = await getPublications();
+const featured = pubs.filter((p) => p.data.featured);
+const shownPubs = (featured.length ? featured : pubs).slice(0, 3);
+---
+<BaseLayout
+  title="ACCEL"
+  description="ACCEL — the Autonomous Closed-Loop Catalysis and Electrochemistry Lab at the University of Delaware, building autonomous, high-throughput platforms and AI for catalysis, electrochemistry, and energy materials."
+>
+  <section class="hero">
+    <Fragment set:html={heroArt} />
+    <h1>Accelerating materials discovery and understanding how they work</h1>
+    <p class="lede">
+      ACCEL is a research group in Chemical and Biomolecular Engineering at the
+      University of Delaware. We combine automation, machine learning, and
+      electrochemistry to design the materials behind cleaner fuels and chemicals.
+    </p>
+    <div class="hero-actions">
+      <a href={url('/people')} class="btn btn-outline">Meet the lab</a>
+    </div>
+  </section>
+
+  {thrusts.length > 0 && (
+    <section>
+      <h2>What we work on</h2>
+      <p class="home-intro">
+        Our research centers on understanding and designing electrochemical
+        materials and processes, from electrocatalysts that turn small molecules into fuels and
+        chemicals to membranes that move ions selectively.
+      </p>
+      <a class="thrusts" href={url('/research')}>
+        <ul class="thrust-cards">
+          {thrusts.map((t) => (
+            <li class="thrust-card">
+              <figure class="r-art" style={`--p:${cardProgress[t.id] ?? 1}`} set:html={t.art} />
+              <span class="thrust-card-num">{t.num}</span>
+              <h3>{t.short}</h3>
+            </li>
+          ))}
+        </ul>
+        <span class="thrusts-more"><span>Explore our research →</span></span>
+      </a>
+    </section>
+  )}
+
+  {shownPubs.length > 0 && (
+    <section>
+      <h2>{featured.length ? 'Featured' : 'Recent'} publications</h2>
+      <ol class="pub-list">
+        {shownPubs.map(({ data }) => <PubItem data={data} />)}
+      </ol>
+      <p class="home-more"><a href={url('/publications')}>All publications →</a></p>
+    </section>
+  )}
+</BaseLayout>

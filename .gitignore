@@ -1,0 +1,15 @@
+node_modules/
+dist/
+.astro/
+.env
+.env.production
+.DS_Store
+
+# Local preview and figure-sourcing work files
+.preview/
+
+# Kept local, never published: publisher PDFs, design source files, editor settings
+papers/
+design/
+.claude/
+.idea/

@@ -1,0 +1,37 @@
+---
+import { getCollection } from 'astro:content';
+import { LOGO } from '../lib/theme';
+import { samePath, url } from '../lib/url';
+
+// News shows in the menu once there is at least one post in src/content/news
+const hasNews = (await getCollection('news')).length > 0;
+
+const links = [
+  { href: '/', label: 'Home' },
+  { href: '/research', label: 'Research' },
+  { href: '/people', label: 'People' },
+  { href: '/publications', label: 'Publications' },
+  ...(hasNews ? [{ href: '/news', label: 'News' }] : []),
+  { href: '/join', label: 'Join Us' },
+];
+---
+<header class="site-header">
+  <div class="container nav-inner">
+    <a href={url('/')} class="brand">
+      <img class="brand-mark" src={url(LOGO.symbol)} alt="" width="48" height="48" />
+      <span class="brand-text">
+        <span class="brand-name">ACCEL</span>
+        <span class="brand-caption">Autonomous Closed-Loop Catalysis and Electrochemistry Lab</span>
+      </span>
+    </a>
+    <nav>
+      <ul>
+        {links.map((l) => (
+          <li>
+            <a href={url(l.href)} aria-current={samePath(Astro.url.pathname, url(l.href)) ? 'page' : undefined}>{l.label}</a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  </div>
+</header>

@@ -1,0 +1,27 @@
+---
+import { existsSync } from 'node:fs';
+import { join } from 'node:path';
+import { url } from '../lib/url';
+
+const year = new Date().getFullYear();
+
+// University of Delaware logo: the official white (reversed) version from
+// UD's brand site, saved as public/logos/udel-logo.svg (or .png). The footer
+// shows it once the file is there.
+const udLogo = ['svg', 'png']
+  .map((ext) => `/logos/udel-logo.${ext}`)
+  .find((src) => existsSync(join(process.cwd(), 'public', src)));
+---
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <div>
+      <p>© {year} ACCEL · Autonomous Closed-Loop Catalysis and Electrochemistry Lab</p>
+      <p>Department of Chemical and Biomolecular Engineering, University of Delaware</p>
+    </div>
+    {udLogo && (
+      <a class="footer-logo" href="https://www.udel.edu" aria-label="University of Delaware">
+        <img src={url(udLogo)} alt="University of Delaware" />
+      </a>
+    )}
+  </div>
+</footer>

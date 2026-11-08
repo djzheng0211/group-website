@@ -1,0 +1,55 @@
+---
+import '../styles/global.css';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import { ART, LOGO, THEME } from '../lib/theme';
+import { url } from '../lib/url';
+
+interface Props {
+  title: string;
+  description?: string;
+  // Full-bleed page: <main> spans the window and sections set their own width.
+  bleed?: boolean;
+}
+
+const { title, description, bleed = false } = Astro.props;
+
+// Search engines are asked not to list the site while it is in preview.
+// At launch, set this to true.
+const allowSearchEngines = false;
+const siteName = 'ACCEL';
+const fullTitle = title === siteName ? title : `${title} — ${siteName}`;
+const metaDescription =
+  description ??
+  'ACCEL — the Autonomous Closed-Loop Catalysis and Electrochemistry Lab at the University of Delaware.';
+---
+<!doctype html>
+<html lang="en" data-theme={THEME}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="theme-color" content={ART.themeColor} />
+    {!allowSearchEngines && <meta name="robots" content="noindex, nofollow" />}
+    <link rel="icon" type="image/png" href={url(LOGO.favicon)} />
+    <link rel="apple-touch-icon" href={url(LOGO.appleTouch)} />
+    <title>{fullTitle}</title>
+    <meta name="description" content={metaDescription} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={metaDescription} />
+    <meta property="og:type" content="website" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body class={bleed ? 'page-bleed' : undefined}>
+    <Nav />
+    <main class={bleed ? undefined : 'container'}>
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>

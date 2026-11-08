@@ -1,0 +1,187 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { url } from '../../lib/url';
+
+type Role = 'PI' | 'postdoc' | 'phd' | 'masters' | 'undergrad' | 'staff' | 'alumni';
+
+// Page sections, in display order. `roles` lets one heading cover several
+// roles (Graduate Students = PhD + Masters). A section shows once it has
+// members; until then, sections with `recruiting` are named in a single
+// "we're recruiting" line at the end, linking to the Join Us page.
+const sections: {
+  label: string;
+  roles: Role[];
+  recruiting?: string;
+}[] = [
+  { label: 'Principal Investigator', roles: ['PI'] },
+  { label: 'Postdoctoral Researchers', roles: ['postdoc'], recruiting: 'postdoctoral researchers' },
+  { label: 'Graduate Students', roles: ['phd', 'masters'], recruiting: 'graduate students' },
+  { label: 'Undergraduate Students', roles: ['undergrad'], recruiting: 'undergraduate researchers' },
+  { label: 'Staff', roles: ['staff'] },
+  { label: 'Alumni', roles: ['alumni'] },
+];
+
+type Fellowship = { name: string; institution?: string; years?: string | number };
+const asFellowship = (f: string | Fellowship): Fellowship =>
+  typeof f === 'string' ? { name: f } : f;
+
+const initials = (name: string) =>
+  name
+    .split(/\s+/)
+    .filter(Boolean)
+    .map((part) => part[0])
+    .slice(0, 2)
+    .join('')
+    .toUpperCase();
+
+const all = await getCollection('people');
+
+// Render each person's markdown body so bios appear alongside their details.
+const withBio = await Promise.all(
+  all.map(async (p) => ({ ...p, Content: (await render(p)).Content })),
+);
+
+const allGroups = sections.map((s) => ({
+  ...s,
+  members: withBio
+    .filter((p) => s.roles.includes(p.data.role))
+    .sort(
+      (a, b) =>
+        (a.data.order ?? 99) - (b.data.order ?? 99) ||
+        a.data.name.localeCompare(b.data.name),
+    ),
+}));
+const groups = allGroups.filter((g) => g.members.length > 0);
+const openings = allGroups.filter((g) => g.members.length === 0 && g.recruiting).map((g) => g.recruiting!);
+// "a", "a and b", "a, b and c"
+const listOf = (xs: string[]) => (xs.length < 2 ? xs.join('') : `${xs.slice(0, -1).join(', ')} and ${xs[xs.length - 1]}`);
+---
+<BaseLayout title="People">
+  <h1>People</h1>
+  {groups.map(({ label, members }) => (
+    <section>
+      {/* The PI's own entry already states their title, so the group heading
+          would just repeat it. Every other group still gets one. */}
+      {label !== 'Principal Investigator' && <h2>{label}</h2>}
+      <ul class="people-list">
+        {members.map(({ data, Content }) => (
+          <li class:list={['person', { 'person-pi': data.role === 'PI' }]}>
+            <div class="person-media">
+              <div class="avatar">
+                {data.photo ? <img src={url(data.photo)} alt={data.name} /> : initials(data.name)}
+              </div>
+              {/* The PI's Scholar and LinkedIn profiles sit under the headshot
+                  as logos; everyone else keeps Scholar with their other links. */}
+              {data.role === 'PI' && (data.links?.googleScholar || data.links?.linkedin) && (
+                <div class="social-links">
+                  {data.links.googleScholar && (
+                    <a class="social-link social-scholar" href={data.links.googleScholar} aria-label="Google Scholar" title="Google Scholar">
+                      <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M5.242 13.769L0 9.5 12 0l12 9.5-5.242 4.269C17.548 11.249 14.978 9.5 12 9.5c-2.977 0-5.548 1.748-6.758 4.269zM12 10a7 7 0 1 0 0 14 7 7 0 0 0 0-14z" />
+                      </svg>
+                    </a>
+                  )}
+                  {data.links.linkedin && (
+                    <a class="social-link social-linkedin" href={data.links.linkedin} aria-label="LinkedIn" title="LinkedIn">
+                      <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
+                      </svg>
+                    </a>
+                  )}
+                </div>
+              )}
+            </div>
+            <div class="person-details">
+              <div class="person-name">{data.name}</div>
+              {data.position && <div class="person-position">{data.position}</div>}
+              {data.department && <div class="person-dept">{data.department}</div>}
+              {data.email && (
+                <div><a href={`mailto:${data.email}`}>{data.email}</a></div>
+              )}
+              {data.links && (data.links.website || data.links.github || data.links.orcid
+                || (data.links.googleScholar && data.role !== 'PI')) && (
+                <p class="person-links">
+                  {data.links.website && <a href={data.links.website}>website</a>}
+                  {data.links.googleScholar && data.role !== 'PI' && <a href={data.links.googleScholar}>scholar</a>}
+                  {data.links.github && <a href={data.links.github}>github</a>}
+                  {data.links.orcid && <a href={data.links.orcid}>orcid</a>}
+                </p>
+              )}
+              <div class="bio"><Content /></div>
+              {data.education && data.education.length > 0 && (
+                <div class="cv-block">
+                  <h3>Education</h3>
+                  <ul class="cv-list">
+                    {data.education.map((e) => (
+                      <li>
+                        <span class="cv-primary">
+                          {e.degree}{e.field && ` ${e.field}`}
+                        </span>
+                        <span class="cv-secondary">
+                          {e.institution}{e.year && `, ${e.year}`}
+                        </span>
+                        {e.advisor && <span class="cv-note">Advisors: {e.advisor}</span>}
+                        {e.note && <span class="cv-note">{e.note}</span>}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+              {data.appointments && data.appointments.length > 0 && (
+                <div class="cv-block">
+                  <h3>Prior Positions</h3>
+                  <ul class="cv-list">
+                    {data.appointments.map((a) => (
+                      <li>
+                        <span class="cv-primary">{a.role}</span>
+                        <span class="cv-secondary">
+                          {a.institution}{a.years && `, ${a.years}`}
+                        </span>
+                        {a.note && <span class="cv-note">{a.note}</span>}
+                        {a.fellowships && a.fellowships.length > 0 && (
+                          <ul class="cv-fellowships">
+                            {a.fellowships.map((raw) => {
+                              const f = asFellowship(raw);
+                              const detail = [f.institution, f.years].filter(Boolean).join(', ');
+                              return (
+                                <li>{f.name}{detail && `, ${detail}`}</li>
+                              );
+                            })}
+                          </ul>
+                        )}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+              {data.fellowships && data.fellowships.length > 0 && (
+                <div class="cv-block">
+                  <h3>Fellowships &amp; honors</h3>
+                  <ul class="cv-list">
+                    {data.fellowships.map((raw) => {
+                      const f = asFellowship(raw);
+                      const detail = [f.institution, f.years].filter(Boolean).join(', ');
+                      return (
+                        <li>
+                          <span class="cv-primary">{f.name}</span>
+                          {detail && <span class="cv-secondary">{detail}</span>}
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </div>
+              )}
+            </div>
+          </li>
+        ))}
+      </ul>
+    </section>
+  ))}
+  {openings.length > 0 && (
+    <section>
+      <h2>Join the lab</h2>
+      <p>We're recruiting {listOf(openings)}. <a href={url('/join')}>See how to apply →</a></p>
+    </section>
+  )}
+</BaseLayout>
